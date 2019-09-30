@@ -43,10 +43,19 @@
         <slf4j.version>1.7.25</slf4j.version>
         <spring.version>4.3.17.RELEASE</spring.version>
         <websocket.version>1.1</websocket.version>
+        <fastversion>1.2.61</fastversion>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- 10.json格式的支持-->
+            <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastversion}</version>
+            </dependency>
+
             <!-- Test Begin -->
             <dependency>
                 <groupId>org.springframework</groupId>
