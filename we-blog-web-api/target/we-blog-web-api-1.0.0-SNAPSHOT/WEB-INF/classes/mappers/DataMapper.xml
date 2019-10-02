@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="we.blog.web.api.mapper.IDataMapper">
+    <select id="getType" resultType="Blogs_function">
+        select * from blogs_function where is_delete = 1;
+    </select>
+    <select id="getAllBlogs" resultType="Blog_message">
+        select * from blog_message bm,user_message um where bm.bm_u_id=um_id and bm.is_delete=1;
+    </select>
+</mapper>
