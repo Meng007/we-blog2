@@ -18,12 +18,12 @@ public class AdminController {
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public BaseResult login(@RequestBody Admin admin){
-        /*//Admin login = adminService.login(admin);
+        System.out.println(admin);
+        Admin login = adminService.login(admin);
+        System.out.println(login);
         if (login !=null){
             return BaseResult.success("登录成功","/views/main.html",login);
         }
         return BaseResult.fail("用户名或密码错误");
-*/
-        return null;
     }
 }

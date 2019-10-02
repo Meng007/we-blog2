@@ -1,6 +1,7 @@
 package we.blog.web.admin.dao;
 
 import org.springframework.stereotype.Repository;
+import we.blog.domain.pojo.Admin;
 
 @Repository
 public interface AdminDao {

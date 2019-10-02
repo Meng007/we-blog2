@@ -84,7 +84,7 @@
             $.ajax({
                 url:"/admin/login",
                 type:"post",
-                data:JSON.stringify({username:$("input").eq(0).val(),password:$("input").eq(1).val()}),
+                data:JSON.stringify({a_username:$("input").eq(0).val(),a_password:$("input").eq(1).val()}),
                 dataType:"json",
                 contentType:"application/json;charset=utf-8",
                 async:true,
