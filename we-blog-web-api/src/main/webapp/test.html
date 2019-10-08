@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $.ajax({
+                type : "post",
+                url : "/getData/getType",
+                dataType : "JSON",
+                success : function (mess) {
+                    alert(mess.length);
+                    console.log(mess);
+                    $(mess).each(function () {
+                    })
+                }
+            })
+        })
+    </script>
+</head>
+<body>
+
+</body>
+</html>

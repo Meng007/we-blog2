@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="we.blog.web.api.mapper.IUserMapper">
+    <resultMap id="UserMap" type="User_message">
+    </resultMap>
+    <select id="findUserByid" resultMap="UserMap">
+      select * from user_message where um_id = #{bm_u_id};
+    </select>
+</mapper>

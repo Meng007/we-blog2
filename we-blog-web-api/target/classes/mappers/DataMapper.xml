@@ -2,10 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="we.blog.web.api.mapper.IDataMapper">
+    
+    <resultMap id="FirstResult" type="Blog_message">
+        <collection property="bm_um"
+                    ofType="User_message"
+                    column="bm_u_id"
+                    select="we.blog.web.api.mapper.IUserMapper.findUserByid"/>
+    </resultMap>
+    
     <select id="getType" resultType="Blogs_function">
         select * from blogs_function where is_delete = 1;
     </select>
-    <select id="getAllBlogs" resultType="Blog_message">
-        select * from blog_message bm,user_message um where bm.bm_u_id=um_id and bm.is_delete=1;
+    <select id="getAllBlogs" resultMap="FirstResult">
+        select * from blog_message bm,user_message um where bm.bm_u_id=um_id and bm.is_delete=1 ORDER BY bm_time DESC limit #{nowblogs},5;
+    </select>
+    <select id="getSearch" resultMap="FirstResult">
+         select * from blog_message bm,user_message um where bm.bm_title like concat(''%',#{search},'%'') and bm.bm_u_id=um.um_id ;
+    </select>
+    <select id="getThisBlog" resultMap="FirstResult">
+        select * from blog_message bm,user_message um where bm_id = #{bm_id} and bm.bm_u_id=um.um_id and bm.is_delete=1;
+    </select>
+    <insert id="setComment" >
+        insert into user_coment(uc_content,bm_id) values(${advise},#{bm_id});
+    </insert>
+    <update id="updataComent">
+        UPDATE blog_message set bm_comment=bm_comment+1 where bm_id = #{bm_id};
+    </update>
+    <select id="getComent" resultType="User_coment">
+        select * from User_coment where  is_delete = 1;
     </select>
 </mapper>
