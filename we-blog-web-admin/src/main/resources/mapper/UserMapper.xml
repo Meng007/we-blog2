@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="we.blog.web.admin.dao.UserDao">
+    <!--获取所有用户-->
+    <select id="getUserList" resultType="User">
+        select * from user
+    </select>
+
+    <!--删除用户-->
+    <delete id="deleteUser" parameterType="Integer">
+        delete from user where u_id=#{id}
+    </delete>
+
+    <!--查找用户-->
+    <select id="findUser" resultType="User" parameterType="User">
+        select * from user where u_username=#{u_username}
+    </select>
+
+    <resultMap id="userMap" type="User">
+        <id property="u_id" column="u_id"/>
+        <result property="u_username" column="u_username"/>
+        <result property="u_password" column="u_password"/>
+        <result property="u_email" column="u_email"/>
+    </resultMap>
+
+    <!--分页获取用户-->
+    <select id="page" resultMap="userMap" parameterType="java.util.Map">
+        SELECT u_id,u_username,u_password,u_email FROM user
+        <where>
+            <if test="pageParams.u_username != null and pageParams.u_username != ''" >
+                AND pageParams.u_username LIKE CONCAT ('%', #{pageParams.u_username}, '%')
+            </if>
+            <if test="pageParams.u_email != null and pageParams.u_email != ''" >
+                AND pageParams.u_email LIKE CONCAT ('%', #{pageParams.u_email}, '%')
+            </if>
+        </where>
+        ORDER BY u_id DESC
+        LIMIT #{start}, #{length}
+    </select>
+
+    <!--查询用户记录条数-->
+    <select id="count" resultType="Integer">
+        select count(0) from user
+    </select>
+
+</mapper>
