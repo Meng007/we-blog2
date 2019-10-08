@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="we.blog.web.admin.dao.BlogContentDao">
+
+    <select id="count" resultType="Integer">
+        select count(b.bm_id)
+        from blog_message as b
+    </select>
+    <resultMap id="bmCol" type="BlogContent">
+        <id property="bid" column="bm_id"/>
+        <result property="bName" column="u_username"/>
+        <result property="title" column="bm_title"/>
+        <result property="type" column="bm_type"/>
+        <result property="update" column="bm_time"/>
+    </resultMap>
+    <select id="page" resultMap="bmCol" parameterType="java.util.Map">
+        SELECT
+            b.`bm_id`,
+            b.`bm_title`,
+            b.`bm_time`,
+            b.`bm_type`,
+            u.u_username
+        FROM blog_message b LEFT JOIN USER AS u ON b.`bm_u_id`=u.u_id
+        <where>
+            <if test="pageParams.bName != null and pageParams.bName != ''" >
+                AND u.u_username LIKE CONCAT ('%', #{pageParams.bName}, '%')
+            </if>
+            <if test="pageParams.title != null and pageParams.title != ''" >
+                AND b.`bm_title` LIKE CONCAT ('%', #{pageParams.title}, '%')
+            </if>
+            <if test="pageParams.type != null and pageParams.type != ''" >
+                AND b.`bm_type` LIKE CONCAT ('%', #{pageParams.type}, '%')
+            </if>
+        </where>
+        ORDER BY b.`bm_time` DESC
+        LIMIT #{start}, #{length}
+    </select>
+
+    <delete id="deleteMulti">
+        delete from blog_message
+        where bm_id in
+        <foreach collection="array" open="(" close=")" separator="," item="bid">
+            #{bid}
+        </foreach>
+    </delete>
+</mapper>

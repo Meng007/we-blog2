@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="we.blog.web.admin.dao.BlogTypeDao">
+
+    <delete id="deleteMuliit">
+        delete from Blogs_function
+        where bf_id in
+        <foreach collection="array" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+    <insert id="save" parameterType="Blogs_function" >
+        insert into blogs_function (bf_type) values (#{bf_type})
+    </insert>
+
+    <resultMap id="typeCol" type="Blogs_function" >
+        <id property="bf_id" column="bf_id"/>
+        <result property="bf_type" column="bf_type"/>
+    </resultMap>
+    <select id="page" parameterType="java.util.Map" resultMap="typeCol">
+        select bf_id,bf_type
+        from blogs_function
+        limit #{start},#{length}
+    </select>
+
+    <update id="update" parameterType="Blogs_function">
+        update blogs_function set bf_type =#{bf_type} where bf_id=#{bf_id}
+    </update>
+
+    <select id="count" resultType="Integer">
+        select count(bf_id) from blogs_function
+    </select>
+</mapper>

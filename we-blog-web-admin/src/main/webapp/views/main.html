@@ -55,7 +55,7 @@
                                     <li><!-- start message -->
                                         <a href="#">
                                             <div class="pull-left">
-                                                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                                <img  src="/assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                                             </div>
                                             <h4>
                                                 Support Team
@@ -68,7 +68,7 @@
                                     <li>
                                         <a href="#">
                                             <div class="pull-left">
-                                                <img src="dist/img/user3-128x128.jpg" class="img-circle" alt="User Image">
+                                                <img src="/assets/img/user3-128x128.jpg" class="img-circle" alt="User Image">
                                             </div>
                                             <h4>
                                                 AdminLTE Design Team
@@ -80,7 +80,7 @@
                                     <li>
                                         <a href="#">
                                             <div class="pull-left">
-                                                <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="User Image">
+                                                <img src="/assets/img/user4-128x128.jpg" class="img-circle" alt="User Image">
                                             </div>
                                             <h4>
                                                 Developers
@@ -92,7 +92,7 @@
                                     <li>
                                         <a href="#">
                                             <div class="pull-left">
-                                                <img src="dist/img/user3-128x128.jpg" class="img-circle" alt="User Image">
+                                                <img src="/assets/img/user3-128x128.jpg" class="img-circle" alt="User Image">
                                             </div>
                                             <h4>
                                                 Sales Department
@@ -104,7 +104,7 @@
                                     <li>
                                         <a href="#">
                                             <div class="pull-left">
-                                                <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="User Image">
+                                                <img src="/assets/img/user4-128x128.jpg" class="img-circle" alt="User Image">
                                             </div>
                                             <h4>
                                                 Reviewers
@@ -241,14 +241,14 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="/assets/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                            <span class="hidden-xs">蒙德世</span>
+                            <img src="/assets/img/user2-160x160.jpg" class="user-image admin_pic" alt="User Image">
+                            <span class="hidden-xs admin_name">蒙德世</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="/assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                                <p>
+                                <img src="/assets/img/user2-160x160.jpg" class="img-circle admin_pic" alt="User Image">
+                                <p class="admin_name">
                                    蒙德世
                                     <small>2019年10月1日</small>
                                 </p>
@@ -257,7 +257,7 @@
                             <li class="user-body">
                                 <div class="row">
                                     <div class="col-xs-4 text-center">
-                                        <a href="#">个人主页</a>
+                                        <a href="/views/admin.html">个人主页</a>
                                     </div>
                                     <div class="col-xs-4 text-center">
                                         <a href="#">通知</a>
@@ -290,10 +290,10 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="/assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    <img src="/assets/img/user2-160x160.jpg" class="img-circle admin_pic" alt="User Image">
                 </div>
                 <div class="pull-left info">
-                    <p>13557280197@163.com</p>
+                    <p class="amdin_email">13557280197@163.com</p>
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
             </div>
@@ -321,8 +321,19 @@
             </span>
                     </a>
                     <ul class="treeview-menu" >
-                        <li><a href="/content/category/list"><i class="fa fa-circle-o"></i> 内容分类</a></li>
-                        <li><a href="/content/list"><i class="fa fa-circle-o"></i>内容列表</a></li>
+                        <li><a href="/views/blog_function.html"><i class="fa fa-circle-o"></i> 内容分类</a></li>
+                        <li><a href="/views/blog_content.html"><i class="fa fa-circle-o"></i>内容列表</a></li>
+                    </ul>
+                </li>
+                <li class="active treeview">
+                    <a href="#">
+                        <i class="fa fa-users"></i> <span>公告管理</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/views/notice.html"><i class="fa fa-circle-o"></i> 公告列表</a></li>
                     </ul>
                 </li>
             </ul>
@@ -340,6 +351,14 @@
 
 
     </div>
+
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>Version</b> 1.0.0
+        </div>
+        <strong>Copyright &copy; 2019-2019 <a href="#">创智集团</a>.</strong> All rights
+        reserved.
+    </footer>
 </div>
 
 
@@ -376,5 +395,39 @@
 <script src="/assets/bower_components/fastclick/lib/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/assets/js/adminlte.min.js"></script>
+
+<script>
+
+    var admin_pic;
+    var admin_email;
+    var admin_name;
+
+    $(function () {
+        admin_pic=$(".admin_pic");
+        admin_email = $(".admin_email");
+        admin_name =$(".admin_name");
+        $.ajax(
+            {
+                url:"/admin/msg",
+                success:function (data) {
+                    if (data.status===200){
+                        admin_pic.each(function () {
+                            //this.src=data.data.a_pic;
+                            $(this).attr("src",data.data.a_pic);
+                        });
+                        admin_name.each(function () {
+                            $(this).text(data.data.a_name);
+                        });
+                        admin_email.each(function () {
+                            $(this).text(data.data.email)
+                        });
+                    }else {
+                        alert("失败")
+                    }
+                }
+            }
+        )
+    })
+</script>
 </body>
 </html>

@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="we.blog.web.admin.dao.NoticeDao">
+
+    <select id="select" parameterType="java.util.Map" resultType="Notice">
+        select nid,title,content,pic,ntime
+        from notice
+        limit #{start},#{length}
+    </select>
+    
+    <insert id="insert" parameterType="Notice">
+        insert  into notice (title,ntime,content,pic) values (#{title},#{ntime},#{content},#{pic})
+    </insert>
+
+    <delete id="delete">
+        delete from notice where bid in
+        <foreach collection="array" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="count" resultType="Integer">
+        select count(nid) from notice
+    </select>
+
+</mapper>
