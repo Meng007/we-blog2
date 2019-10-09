@@ -47,15 +47,6 @@ public class UserTest {
     }
 
     @Test
-    public void getUserList(){
-        User user = new User();
-        user.setU_username("zs");
-        user.setU_password("123");
-        List<User> list = mapper.getUserList();
-        System.out.println(list);
-    }
-
-    @Test
     public void findUser(){
         User zs = mapper.findUser("zs");
         System.out.println(zs);
@@ -63,7 +54,7 @@ public class UserTest {
 
     @Test
     public void deleteUser(){
-        Integer integer = mapper.deleteUser(3);
+        Integer integer = mapper.deleteUser(new String[]{"2","3"});
         System.out.println(integer);
     }
 

@@ -8,8 +8,12 @@
     </select>
 
     <!--删除用户-->
-    <delete id="deleteUser" parameterType="Integer">
-        delete from user where u_id=#{id}
+    <delete id="deleteUser">
+        delete from user
+        where u_id in
+        <foreach collection="array" open="(" close=")" separator="," item="bid">
+            #{bid}
+        </foreach>
     </delete>
 
     <!--查找用户-->
@@ -24,15 +28,41 @@
         <result property="u_email" column="u_email"/>
     </resultMap>
 
-    <!--分页获取用户-->
+    <!--根据id获取一个用户-->
+    <select id="getUserById" resultMap="userMap" parameterType="String">
+        select * from user where u_id=#{id}
+    </select>
+
+    <!--分页获取普通用户-->
     <select id="page" resultMap="userMap" parameterType="java.util.Map">
-        SELECT u_id,u_username,u_password,u_email FROM user
+        SELECT u_id,u_username,u_password,u_email FROM user u left join user_message um on u.u_id=um.um_id
         <where>
+            <if test="1==1">
+                um.um_vip=0
+            </if>
             <if test="pageParams.u_username != null and pageParams.u_username != ''" >
-                AND pageParams.u_username LIKE CONCAT ('%', #{pageParams.u_username}, '%')
+                AND u.u_username LIKE CONCAT ('%', #{pageParams.u_username}, '%')
             </if>
             <if test="pageParams.u_email != null and pageParams.u_email != ''" >
-                AND pageParams.u_email LIKE CONCAT ('%', #{pageParams.u_email}, '%')
+                AND u.u_email LIKE CONCAT ('%', #{pageParams.u_email}, '%')
+            </if>
+        </where>
+        ORDER BY u_id DESC
+        LIMIT #{start}, #{length}
+    </select>
+
+    <!--分页获取vip用户-->
+    <select id="pageVip" resultMap="userMap" parameterType="java.util.Map">
+        SELECT u_id,u_username,u_password,u_email FROM user u left join user_message um on u.u_id=um.um_id
+        <where>
+            <if test="1==1">
+                um.um_vip=1
+            </if>
+            <if test="pageParams.u_username != null and pageParams.u_username != ''" >
+                AND u.u_username LIKE CONCAT ('%', #{pageParams.u_username}, '%')
+            </if>
+            <if test="pageParams.u_email != null and pageParams.u_email != ''" >
+                AND u.u_email LIKE CONCAT ('%', #{pageParams.u_email}, '%')
             </if>
         </where>
         ORDER BY u_id DESC
@@ -43,5 +73,34 @@
     <select id="count" resultType="Integer">
         select count(0) from user
     </select>
+
+    <!--用户信息-->
+    <resultMap id="userInfoMap" type="User_message">
+        <id property="um_id" column="um_id"/>
+        <result property="um_name" column="um_name"/>
+        <result property="um_sex" column="um_sex"/>
+        <result property="um_birthday" column="um_birthday"/>
+        <result property="um_register_time" column="um_register_time"/>
+        <result property="um_last_time" column="um_last_time"/>
+        <result property="um_blogs" column="um_blogs"/>
+        <result property="um_integral" column="um_integral"/>
+        <result property="um_collect" column="um_collect"/>
+        <result property="um_picture" column="um_picture"/>
+        <result property="um_fans" column="um_fans"/>
+        <result property="um_vip" column="um_vip"/>
+        <result property="um_visit" column="um_visit"/>
+    </resultMap>
+
+    <!--获取用户信息-->
+    <select id="getUserInfo" resultMap="userInfoMap" parameterType="String">
+        select
+        um_id,um_name,um_sex,um_birthday,um_register_time,um_last_time,um_blogs,um_integral,um_collect,um_picture,um_fans,um_vip,um_visit
+        from user_message where um_id=#{id} and is_delete=1
+    </select>
+
+    <!--修改用户-->
+    <update id="updateUser" parameterType="User">
+        update user set u_username=#{u_username},u_password=#{u_password},u_email=#{u_email} where u_id=#{u_id}
+    </update>
 
 </mapper>
