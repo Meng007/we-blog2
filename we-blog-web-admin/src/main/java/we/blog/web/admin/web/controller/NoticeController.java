@@ -2,7 +2,7 @@ package we.blog.web.admin.web.controller;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +12,7 @@ import we.blog.domain.pojo.Notice;
 import we.blog.web.admin.service.NoticeService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/notice")
@@ -46,8 +47,16 @@ public class NoticeController {
         return page;
     }
     //添加
-    @RequestMapping(value = "save",method = RequestMethod.POST)
-    public BaseResult save(@RequestBody Notice notice){
+    @RequestMapping(value = "save",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_UTF8_VALUE,consumes = "application/x-www-form-urlencoded;charset=UTF-8")
+    public BaseResult save(HttpServletRequest request){
+        String title = request.getParameter("title");
+        String pic = request.getParameter("pic");
+        String content = request.getParameter("content");
+        Notice notice = new Notice();
+        notice.setContent(content);
+        notice.setTitle(title);
+        notice.setPic(pic);
+        notice.setNtime(new Date());
         Integer i = noticeService.insert(notice);
         if (i>0){
             return BaseResult.success("添加成功");

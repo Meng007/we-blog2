@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="we.blog.web.admin.dao.ComentDao">
+<resultMap id="conmentCol" type="User_coment">
+    <id property="uc_id" column="uc_id"/>
+    <result property="my_id" column="my_id"/>
+    <result property="parent_id" column="parent_id"/>
+    <result property="bm_id" column="bm_id"/>
+    <result property="uc_content" column="uc_content"/>
+    <result property="is_delete" column="is_delete"/>
+</resultMap>
+    <select id="select" parameterType="User_coment" resultMap="conmentCol">
+        select *
+        from user_coment
+        <where>
+            <if test="my_id !=null and my_id !=''">
+                and my_id LIKE CONCAT ('%', #{pageParams.my_id}, '%')
+            </if>
+            <if test="bm_id !=null and bm_id !=''">
+                and bm_id LIKE CONCAT ('%', #{pageParams.bm_id}, '%')
+            </if>
+        </where>
+        LIMIT #{start}, #{length}
+    </select>
+
+    <delete id="delete" >
+        delete from user_coment
+        where uc_id in
+        <foreach collection="array" item="id" separator="," close=")" open="(">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="count" resultType="Integer">
+        select count(uc_id) from user_coment
+    </select>
+</mapper>

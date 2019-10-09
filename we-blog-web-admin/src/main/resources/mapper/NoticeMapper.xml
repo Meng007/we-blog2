@@ -14,7 +14,7 @@
     </insert>
 
     <delete id="delete">
-        delete from notice where bid in
+        delete from notice where nid in
         <foreach collection="array" open="(" close=")" separator="," item="id">
             #{id}
         </foreach>

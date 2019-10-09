@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>博客内容|管理</title>
+    <title>评论|管理</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -55,7 +55,7 @@
                                     <li><!-- start message -->
                                         <a href="#">
                                             <div class="pull-left">
-                                                <img src="/assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                                <img  src="/assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                                             </div>
                                             <h4>
                                                 Support Team
@@ -248,7 +248,7 @@
                             <!-- User image -->
                             <li class="user-header">
                                 <img src="/assets/img/user2-160x160.jpg" class="img-circle admin_pic" alt="User Image">
-                                <p class="amdin_name">
+                                <p class="admin_name">
                                     蒙德世
                                     <small>2019年10月1日</small>
                                 </p>
@@ -293,7 +293,7 @@
                     <img src="/assets/img/user2-160x160.jpg" class="img-circle admin_pic" alt="User Image">
                 </div>
                 <div class="pull-left info">
-                    <p class="admin_email">13557280197@163.com</p>
+                    <p class="amdin_email">13557280197@163.com</p>
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
             </div>
@@ -344,79 +344,68 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <section class="content-header">
-            <h1>
-                博客内容
-                <small></small>
-            </h1>
             <ol class="breadcrumb">
-                <li><a href="/views/main.html"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active"><a href="#">博客内容</a></li>
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li class="active"><a href="main.html">评论列表</a></li>
             </ol>
         </section>
+        <div class="box">
+            <div class="box box-info box-info-search" style="display: none;">
+                <div class="box-header">
+                    <h3 class="box-title">高级搜索</h3>
+                </div>
 
-        <div class="box box-info box-info-search" style="display: none;">
-            <div class="box-header">
-                <h3 class="box-title">高级搜索</h3>
-            </div>
+                <div class="box-body">
+                    <div class="row form-horizontal">
+                        <div class="col-xs-12 col-sm-3">
+                            <div class="form-group">
+                                <label for="username" class="col-sm-4 control-label">评论者id</label>
 
-            <div class="box-body">
-                <div class="row form-horizontal">
-                    <div class="col-xs-12 col-sm-3">
-                        <div class="form-group">
-                            <label for="username" class="col-sm-4 control-label">用户名</label>
-
-                            <div class="col-sm-8">
-                                <input id="username" class="form-control" placeholder="用户名" />
+                                <div class="col-sm-8">
+                                    <input id="username" class="form-control" placeholder="评论者id" />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-3">
-                        <div class="form-group">
-                            <label for="email" class="col-sm-4 control-label">邮箱</label>
+                        <div class="col-xs-12 col-sm-3">
+                            <div class="form-group">
+                                <label for="email" class="col-sm-4 control-label">博客id</label>
 
-                            <div class="col-sm-8">
-                                <input id="email" class="form-control" placeholder="邮箱" />
+                                <div class="col-sm-8">
+                                    <input id="email" class="form-control" placeholder="博客id" />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="box-footer">
-                <button type="button" class="btn btn-info pull-right" onclick="search();">搜索</button>
+                <div class="box-footer">
+                    <button type="button" class="btn btn-info pull-right" onclick="search();">搜索</button>
+                </div>
             </div>
+        <div class="box-body">
+            <button type="button" class="btn btn-sm btn-default" onclick="App.deleteMulti('/blog/delete')"><i class="fa fa-trash-o"></i> 删除</button>&nbsp;&nbsp;&nbsp;
+            <button type="button" class="btn btn-sm btn-primary" onclick="$('.box-info-search').css('display') == 'none' ? $('.box-info-search').show('fast') : $('.box-info-search').hide('fast')"><i class="fa fa-search"></i> 搜索</button>
         </div>
-        <div class="box">
-<!--            <div class="box-header">
-                <h3 class="box-title">博客内容</h3>
-            </div>-->
-            <div class="box-body">
-                <button type="button" class="btn btn-sm btn-default" onclick="App.deleteMulti('/blog/delete')"><i class="fa fa-trash-o"></i> 删除</button>&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-sm btn-primary" onclick="$('.box-info-search').css('display') == 'none' ? $('.box-info-search').show('fast') : $('.box-info-search').hide('fast')"><i class="fa fa-search"></i> 搜索</button>
-            </div>
-
-            <!-- /.box-header -->
-            <div class="box-body table-responsive">
-                <table id="dataTable" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th><input type="checkbox" class="minimal icheck_master" /></th>
-                            <th>ID</th>
-                            <th>用户名</th>
-                            <th>密码</th>
-                            <th>邮箱</th>
-                            <th>查看</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
-            </div>
-
+        <!-- /.box-header -->
+        <div class="box-body table-responsive">
+            <table id="dataTable" class="table table-hover">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="minimal icheck_master" /></th>
+                    <th>ID</th>
+                    <th>评论者id</th>
+                    <th>内容</th>
+                    <th>对应博客</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
         </div>
     </div>
+
     <footer class="main-footer">
         <div class="pull-right hidden-xs">
             <b>Version</b> 1.0.0
@@ -425,6 +414,7 @@
         reserved.
     </footer>
 </div>
+
 
 <!--模态框-->
 <div class="modal fade" id="modal-default">
@@ -447,110 +437,6 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-
-<!--会话框-->
-<div class="modal fade" id="modal-01">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">用户信息</h4>
-            </div>
-            <div class="modal-body">
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <table id="example2" class="table table-bordered table-hover">
-                        <tbody>
-                        <tr>
-                            <td>昵称</td>
-                            <td class="item"></td>
-                            <td>用户性别</td>
-                            <td class="item"></td>
-                        </tr>
-                        <tr>
-                            <td>用户生日</td>
-                            <td class="item"></td>
-                            <td>用户注册时间</td>
-                            <td class="item"></td>
-                        </tr>
-                        <tr>
-                            <td>用户最后登陆时间</td>
-                            <td class="item"></td>
-                            <td>博客数</td>
-                            <td class="item"></td>
-
-                        </tr>
-                        <tr>
-                            <td>用户积分</td>
-                            <td class="item"></td>
-                            <td>粉丝数量</td>
-                            <td class="item"></td>
-                        </tr>
-                        <tr>
-                            <td>访问数</td>
-                            <td class="item"></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.box-body -->
-            </div>
-            <!-- /.box -->
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-    </div>
-    <!-- /.modal-content -->
-</div>
-<!-- /.modal-dialog -->
-</div>
-
-<!--修改框-->
-<div class="modal fade" id="modal-02">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">修改用户</h4>
-            </div>
-            <div class="modal-body">
-                <div class="box-body">
-                    <input type="text" id="u_id" style="display:none"/>
-                    <div class="form-group">
-                        <label for="username-new">用户名</label>
-                        <input type="text" class="form-control" id="username-new" placeholder="UserName">
-                    </div>
-                    <div class="form-group">
-                        <label for="password-new">密码</label>
-                        <input type="text" class="form-control" id="password-new" placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                        <label for="email-new">邮箱</label>
-                        <input type="email" class="form-control" id="email-new" placeholder="Enter email">
-                    </div>
-                </div>
-                <!-- /.box-body -->
-                <div class="box-footer">
-                    <button type="submit" class="btn btn-primary" onclick="update()">修改</button>
-                </div>
-            </div>
-            <!-- /.box -->
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-    </div>
-    <!-- /.modal-content -->
-</div>
-<!-- /.modal-dialog -->
-</div>
-
-
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -591,139 +477,76 @@
         var _columns = [
             {
                 "data": function (row, type, val, meta) {
-                    return '<input id="' + row.bid + '" type="checkbox" class="minimal" />';
+                    return '<input id="' + row.uc_id + '" type="checkbox" class="minimal" />';
                 }
             },
-            {"data": "u_id"},
-            {"data": "u_username"},
-            {"data": "u_password"},
-            {"data": "u_email"},
+            {"data": "uc_id"},
+            {"data": "my_id"},
+            {"data": "uc_content"},
             {
                 "data": function (row, type, val, meta) {
-                    return '<a onclick="show('+row.u_id+')">查看用户信息</a>'
-            }},
+                    return '<a href='+row.bm_id+'>查看</a>'
+                }},
             {
                 "data": function (row, type, val, meta) {
-                    var detailUrl = "/blog/detail?id=" + row.u_id;
-                    var deleteUrl = "/user/deleteUser";
-                    return '<button type="button" class="btn btn-sm btn-default" onclick="show02('+row.u_id+')"><i class="fa fa-search"></i> 修改</button>&nbsp;&nbsp;&nbsp;' +
-                        '<button type="button" class="btn btn-sm btn-danger" onclick="App.deleteSingle(\'' + deleteUrl + '\', \'' + row.u_id + '\')"><i class="fa fa-trash-o"></i> 删除</button>';
+                    var detailUrl = "/coment/detail?id=" + row.bid;
+                    var deleteUrl = "/coment/deletes";
+                    return '<button type="button" class="btn btn-sm btn-default" onclick="App.showDetail(\'' + detailUrl + '\');"><i class="fa fa-search"></i> 查看</button>&nbsp;&nbsp;&nbsp;' +
+                        '<button type="button" class="btn btn-sm btn-danger" onclick="App.deleteSingle(\'' + deleteUrl + '\', \'' + row.uc_id + '\')"><i class="fa fa-trash-o"></i> 删除</button>';
                 }
             }
         ];
 
-        _dataTable = App.initDataTables("/user/getVipUserPage", _columns);
+        _dataTable = App.initDataTables("/coment/page", _columns);
     });
 
     function search() {
-        var username = $("#username").val();
-        var email = $("#email").val();
+        var my_id = $("#username").val();
+        var  bm_id = $("#phone").val();
+        /*var title = $("#email").val();*/
 
         var param = {
-            "u_username": username,
-            "u_email": email
+            "my_id": my_id,
+            /*"title": title*/
+            "bm_id": bm_id
         };
 
         _dataTable.settings()[0].ajax.data = param;
         _dataTable.ajax.reload();
     }
-
-    function show(uid) {
-        var item = document.getElementsByClassName("item");
-
-        var settings = {
-            url:"/user/getUserInfo",
-            type:"post",
-            data:{
-                id:uid
-            },
-            async:"true",
-            success:function (data) {
-                //成功回调执行的函数
-                console.log(data);
-
-                item[0].innerHTML=data.um_name;
-                item[1].innerHTML=data.um_sex;
-                item[2].innerHTML=data.um_birthday;
-                item[3].innerHTML=data.um_register_time;
-                item[4].innerHTML=data.um_last_time;
-                item[5].innerHTML=data.um_blogs;
-                item[6].innerHTML=data.um_integral;
-                item[7].innerHTML=data.um_fans;
-                item[8].innerHTML=data.um_visit;
-
-            },
-            error:function (status) {
-                //失败时执行的函数
-            },
-            complete:function () {
-                //必须执行的函数
-            }
-        }
-        $.ajax(settings);
-        $("#modal-01").modal("show");
-    }
-
-    function show02(uid) {
-        var settings = {
-            url:"/user/getUserById",
-            type:"post",
-            data:{
-                id:uid
-            },
-            async:"true",
-            success:function (data) {
-                //成功回调执行的函数
-                console.log(data);
-                var username = $("#username-new");
-                var email = $("#email-new");
-                var password = $("#password-new");
-                var u_id = $("#u_id");
-                username.val(data.u_username);
-                email.val(data.u_email);
-                password.val(data.u_password);
-                u_id.val(data.u_id);
-            },
-            error:function (status) {
-                //失败时执行的函数
-            },
-            complete:function () {
-                //必须执行的函数
-            }
-        }
-        $.ajax(settings);
-        $("#modal-02").modal("show");
-    }
-
-    function update() {
-        var username = $("#username-new").val();
-        var email = $("#email-new").val();
-        var password = $("#password-new").val();
-        var u_id = $("#u_id").val();
-        var settings={
-            url:"/user/updateUser",
-            type:"post",
-            data:{
-                u_id:u_id,
-                u_username:username,
-                u_password:password,
-                u_email:email
-            },
-            async:"true",
-            success:function (data) {
-                //成功回调执行的函数
-                $("#modal-02").modal("hide");
-                search();
-            }
-        }
-        $.ajax(settings);
-    }
-
-
 </script>
-<script src="../assets/app/admin.js"></script>
 <script>
-    Admin.admin();
+
+    var admin_pic;
+    var admin_email;
+    var admin_name;
+
+    $(function () {
+        admin_pic=$(".admin_pic");
+        admin_email = $(".admin_email");
+        admin_name =$(".admin_name");
+        $.ajax(
+            {
+                url:"/admin/msg",
+                success:function (data) {
+                    if (data.status===200){
+                        admin_pic.each(function () {
+                            //this.src=data.data.a_pic;
+                            $(this).attr("src",data.data.a_pic);
+                        });
+                        admin_name.each(function () {
+                            $(this).text(data.data.a_name);
+                        });
+                        admin_email.each(function () {
+                            $(this).text(data.data.email)
+                        });
+                    }else {
+                        alert("失败")
+                    }
+                }
+            }
+        )
+    })
 </script>
 </body>
 </html>
