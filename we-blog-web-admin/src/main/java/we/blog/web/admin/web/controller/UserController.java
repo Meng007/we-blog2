@@ -109,6 +109,7 @@ public class UserController {
     /*修改用户*/
     @RequestMapping(value = "/updateUser",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Integer updateUser(User user){
+        System.out.println("接收到的数据："+user);
         return userService.updateUser(user);
     }
 

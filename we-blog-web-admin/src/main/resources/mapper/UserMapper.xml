@@ -8,13 +8,13 @@
     </select>
 
     <!--删除用户-->
-    <delete id="deleteUser">
-        delete from user
+    <update id="deleteUser">
+        update user set is_delete=0
         where u_id in
         <foreach collection="array" open="(" close=")" separator="," item="bid">
             #{bid}
         </foreach>
-    </delete>
+    </update>
 
     <!--查找用户-->
     <select id="findUser" resultType="User" parameterType="User">
@@ -38,7 +38,10 @@
         SELECT u_id,u_username,u_password,u_email FROM user u left join user_message um on u.u_id=um.um_id
         <where>
             <if test="1==1">
-                um.um_vip=0
+                AND um.um_vip=0
+            </if>
+            <if test="1==1">
+                AND u.is_delete=1
             </if>
             <if test="pageParams.u_username != null and pageParams.u_username != ''" >
                 AND u.u_username LIKE CONCAT ('%', #{pageParams.u_username}, '%')
@@ -56,7 +59,10 @@
         SELECT u_id,u_username,u_password,u_email FROM user u left join user_message um on u.u_id=um.um_id
         <where>
             <if test="1==1">
-                um.um_vip=1
+                AND um.um_vip=1
+            </if>
+            <if test="1==1">
+                AND u.is_delete=1
             </if>
             <if test="pageParams.u_username != null and pageParams.u_username != ''" >
                 AND u.u_username LIKE CONCAT ('%', #{pageParams.u_username}, '%')

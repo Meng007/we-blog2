@@ -496,19 +496,58 @@
                 <!-- /.box-body -->
             </div>
             <!-- /.box -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
         </div>
-        <!-- /.modal-content -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
     </div>
-    <!-- /.modal-dialog -->
+    <!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
 </div>
 
-
 <!--修改框-->
+<div class="modal fade" id="modal-02">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Default Modal</h4>
+            </div>
+            <div class="modal-body">
+                <div class="box-body">
+                    <input type="text" id="u_id" style="display:none"/>
+                    <div class="form-group">
+                        <label for="username-new">用户名</label>
+                        <input type="text" class="form-control" id="username-new" placeholder="UserName">
+                    </div>
+                    <div class="form-group">
+                        <label for="password-new">密码</label>
+                        <input type="text" class="form-control" id="password-new" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="email-new">邮箱</label>
+                        <input type="email" class="form-control" id="email-new" placeholder="Enter email">
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary" onclick="update()">修改</button>
+                </div>
+            </div>
+            <!-- /.box -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+    </div>
+    <!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+</div>
 
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -551,7 +590,7 @@
         var _columns = [
             {
                 "data": function (row, type, val, meta) {
-                    return '<input id="' + row.u_id + '" type="checkbox" class="minimal"/>';
+                    return '<input id="' + row.bid + '" type="checkbox" class="minimal" />';
                 }
             },
             {"data": "u_id"},
@@ -566,7 +605,7 @@
                 "data": function (row, type, val, meta) {
                     var detailUrl = "/blog/detail?id=" + row.u_id;
                     var deleteUrl = "/user/deleteUser";
-                    return '<button type="button" class="btn btn-sm btn-default" onclick="App.showDetail(\'' + detailUrl + '\');"><i class="fa fa-search"></i> 修改</button>&nbsp;&nbsp;&nbsp;' +
+                    return '<button type="button" class="btn btn-sm btn-default" onclick="show02('+row.u_id+')"><i class="fa fa-search"></i> 修改</button>&nbsp;&nbsp;&nbsp;' +
                         '<button type="button" class="btn btn-sm btn-danger" onclick="App.deleteSingle(\'' + deleteUrl + '\', \'' + row.u_id + '\')"><i class="fa fa-trash-o"></i> 删除</button>';
                 }
             }
@@ -593,12 +632,6 @@
 
         var settings = {
             url:"/user/getUserInfo",
-            /*
-            *   get:查
-            *   post:增
-            *   put:改
-            *   delete:删
-            * */
             type:"post",
             data:{
                 id:uid
@@ -628,6 +661,61 @@
         }
         $.ajax(settings);
         $("#modal-01").modal("show");
+    }
+
+    function show02(uid) {
+        var settings = {
+            url:"/user/getUserById",
+            type:"post",
+            data:{
+                id:uid
+            },
+            async:"true",
+            success:function (data) {
+                //成功回调执行的函数
+                console.log(data);
+                var username = $("#username-new");
+                var email = $("#email-new");
+                var password = $("#password-new");
+                var u_id = $("#u_id");
+                username.val(data.u_username);
+                email.val(data.u_email);
+                password.val(data.u_password);
+                u_id.val(data.u_id);
+            },
+            error:function (status) {
+                //失败时执行的函数
+            },
+            complete:function () {
+                //必须执行的函数
+            }
+        }
+        $.ajax(settings);
+        $("#modal-02").modal("show");
+    }
+
+    function update() {
+        var username = $("#username-new").val();
+        var email = $("#email-new").val();
+        var password = $("#password-new").val();
+        var u_id = $("#u_id").val();
+        var settings={
+            url:"/user/updateUser",
+            type:"post",
+            data:{
+                u_id:u_id,
+                u_username:username,
+                u_password:password,
+                u_email:email
+            },
+            async:"true",
+            success:function (data) {
+                //成功回调执行的函数
+                $("#modal-02").modal("hide");
+                search();
+            }
+        }
+        $.ajax(settings);
     }
 
 
