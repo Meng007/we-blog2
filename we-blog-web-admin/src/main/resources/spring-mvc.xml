@@ -7,12 +7,17 @@
     <!-- 加载配置属性文件 -->
     <context:property-placeholder ignore-unresolvable="true" location="classpath:blog.properties"/>
 
+    <!--启用默认Servlet-->
+    <mvc:default-servlet-handler/>
+
     <!-- 使用 Annotation 自动注册 Bean,只扫描 @Controller -->
     <context:component-scan base-package="we.blog.web.admin.web.controller" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
+
     <!-- 默认的注解映射的支持 -->
     <mvc:annotation-driven />
+
     <!-- 静态资源映射 -->
     <mvc:resources mapping="/assets/**" location="/assets/" cache-period="31536000"/>
     <mvc:resources mapping="/views/**" location="/views/" cache-period="31536000"/>
@@ -21,4 +26,24 @@
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="${web.maxUploadSize}"/>
     </bean>
+
+    <!-- 视图解析器对像-->
+    <!--<bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="views"/>
+        <property name="suffix" value=".html"/>
+    </bean>-->
+
+    <!--配置拦截器-->
+    <mvc:interceptors>
+        <!--配置拦截器-->
+        <mvc:interceptor>
+            <!--要拦截的具体方法-->
+            <mvc:mapping path="/**"/>
+            <!--不拦截的方法-->
+            <mvc:exclude-mapping path="/admin/login"/>
+            <!--配置拦截器对象-->
+            <bean class="we.blog.web.admin.web.Interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>
