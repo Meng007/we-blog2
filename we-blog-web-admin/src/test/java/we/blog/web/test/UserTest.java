@@ -9,9 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import we.blog.domain.pojo.User;
+import we.blog.domain.pojo.User_message;
 import we.blog.web.admin.dao.UserDao;
 import we.blog.web.admin.service.UserService;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -46,7 +46,7 @@ public class UserTest {
         in.close();
     }
 
-    @Test
+    @Test //根据用户名查找用户
     public void findUser(){
         User zs = mapper.findUser("zs");
         System.out.println(zs);
@@ -72,5 +72,23 @@ public class UserTest {
         List<User> page = mapper.page(params);
 
         System.out.println(page);
+    }
+
+    @Test //根据用户id查找用户
+    public void getUserById(){
+        User user = mapper.getUserById("5");
+        System.out.println(user);
+    }
+
+    @Test //查找用户信息
+    public void getUserInfo(){
+        User_message user_message = mapper.getUserInfo("5");
+        System.out.println(user_message);
+    }
+
+    @Test //计算总条数
+    public void count(){
+        Integer count = mapper.count();
+        System.out.println(count);
     }
 }

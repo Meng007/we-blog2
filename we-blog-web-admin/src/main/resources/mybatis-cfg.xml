@@ -10,7 +10,7 @@
 
     <!--类型别名-->
     <typeAliases>
-        <package name="com.stan.entity"/>
+        <package name="we.blog.domain.pojo"/>
     </typeAliases>
 
     <!--配置环境-->
