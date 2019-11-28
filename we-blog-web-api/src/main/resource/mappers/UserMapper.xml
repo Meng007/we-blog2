@@ -5,6 +5,37 @@
     <resultMap id="UserMap" type="User_message">
     </resultMap>
     <select id="findUserByid" resultMap="UserMap">
-      select * from user_message where um_id = #{bm_u_id};
+        select * from user_message where um_id = #{bm_u_id};
     </select>
+    <select id="checkUsername"  resultType="Integer">
+        select count(u_id) from user where u_username=#{name} and is_delete=1;
+    </select>
+    <insert id="register" keyProperty="user.u_id" useGeneratedKeys="true" >
+        insert into user(u_email,u_username,u_password) values(#{user.u_email},#{user.u_username},#{user.u_password});
+    </insert>
+    <update id="addMessage">
+update user_message set um_register_time=#{time} where um_id=#{um_id} and is_delete=1;
+    </update>
+    <select id="show" resultType="User_message">
+        select * from user_message where um_id=#{uId} and is_delete=1;
+    </select>
+    <select id="getAttention" resultType="User_message">
+        SELECT m.um_name,m.um_picture,m.um_id FROM user_message AS m LEFT JOIN  user_attention AS u ON  (m.um_id=u.au_id) where u.my_id=#{u_id} AND u.is_delete=1 ;
+    </select>
+
+    <select id="login" resultType="Integer">
+        select u_id from user where u_username=#{Name} and u_password=#{Pass} and is_delete=1;
+    </select>
+    <select id="time" resultType="String">
+        select u_registertime from user where u_id=#{u_id} and is_delete=1;
+    </select>
+    <update id="update">
+        update user_message set um_name=#{ni},um_sex=#{sex},um_birthday=#{day},um_nation=#{nation},um_intro=#{intro} where um_id=#{idm} and is_delete=1;
+    </update>
+    <update id="picInfo">
+         update user_message set um_picture=#{path}where um_id=#{id} and is_delete=1;
+    </update>
+    <update id="cancel">
+         update user_attention set is_delete=0 where au_id=#{cid} ;
+    </update>
 </mapper>

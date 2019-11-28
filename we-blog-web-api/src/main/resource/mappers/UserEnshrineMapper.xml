@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="we.blog.web.api.mapper.UserEnshrineMapper">
+  <resultMap id="BaseResultMap" type="we.blog.domain.pojo.User_enshrine">
+    <!--@mbg.generated-->
+    <id column="ue_id" jdbcType="INTEGER" property="ue_id" />
+    <result column="my_id" jdbcType="INTEGER" property="my_id" />
+    <result column="c_id" jdbcType="INTEGER" property="c_id" />
+    <result column="is_delete" jdbcType="INTEGER" property="is_delete" />
+      <collection property="messages"
+                  column="c_id"
+                  ofType="we.blog.domain.pojo.Blog_message"
+                  select="we.blog.web.api.mapper.BlogMessageMapper.selectByUid"></collection>
+
+  </resultMap>
+<!--查询才有 resultMap 返回类型-->
+    <select id="selectAllByMyId" resultMap="BaseResultMap">
+        select ue.my_id,ue.c_id from user_enshrine As ue where ue.my_id=#{myId} and ue.is_delete=1;
+    </select>
+    <update id="undateDel" >
+        update user_enshrine set is_delete=0 where c_id=#{cId}
+    </update>
+</mapper>

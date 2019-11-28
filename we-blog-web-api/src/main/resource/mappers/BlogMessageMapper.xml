@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="we.blog.web.api.mapper.BlogMessageMapper">
+  <resultMap id="BaseResultMap" type="we.blog.domain.pojo.Blog_message">
+    <!--@mbg.generated-->
+    <id column="bm_id" jdbcType="INTEGER" property="bm_id" />
+    <result column="bm_u_id" jdbcType="INTEGER" property="bm_u_id" />
+    <result column="bm_goods" jdbcType="INTEGER" property="bm_goods" />
+    <result column="bm_title" jdbcType="VARCHAR" property="bm_title" />
+    <result column="bm_content" jdbcType="LONGVARCHAR" property="bm_content" />
+    <result column="bm_read" jdbcType="INTEGER" property="bm_read" />
+    <result column="bm_comment" jdbcType="INTEGER" property="bm_comment" />
+    <result column="bm_time" jdbcType="TIMESTAMP" property="bm_time" />
+    <result column="bm_type" jdbcType="VARCHAR" property="bm_type" />
+    <result column="is_delete" jdbcType="INTEGER" property="is_delete" />
+  </resultMap>
+  <select id="selectByUid" resultMap="BaseResultMap">
+      select bm.bm_title , bm.bm_content , bm.bm_time ,bm.bm_type from blog_message bm where bm.bm_id=#{bmId} and bm.is_delete=1
+  </select>
+</mapper>

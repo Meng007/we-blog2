@@ -8,9 +8,12 @@
        http://www.springframework.org/schema/mvc
        https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
+    <!-- 项目支持跨域访问 -->
+    <mvc:cors>
+        <mvc:mapping path="/**" allow-credentials="true" allowed-origins=""/>
+    </mvc:cors>
 
     <context:component-scan base-package="we.blog.web.api"/>
-
     <!--mvc的分发器-->
     <mvc:annotation-driven>
         <!-- 消息转化器  -->
@@ -24,19 +27,13 @@
                         <value>application/json;charset=UTF-8</value>
                     </list>
                 </property>
-                <property name="fastJsonConfig">
-                    <bean class="com.alibaba.fastjson.support.config.FastJsonConfig">
-                        <property name="features">
-                            <list>
-                                <value>AllowArbitraryCommas</value>
-                                <value>AllowUnQuotedFieldNames</value>
-                                <value>DisableCircularReferenceDetect</value>
-                            </list>
-                        </property>
-                        <!--配置特定的日期格式-->
-                        <property name="dateFormat" value="yyyy-MM-dd HH:mm:ss"/>
-                    </bean>
-                </property>
+                <property name="features">
+                <list>
+                    <value>QuoteFieldNames</value> <!-- 输出key时是否使用双引号,默认为true -->
+                    <value>WriteMapNullValue</value>  <!-- 是否输出值为null的字段,默认为false -->
+                    <value>DisableCircularReferenceDetect</value>
+                </list>
+            </property>
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>

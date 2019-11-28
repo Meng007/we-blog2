@@ -10,25 +10,56 @@
                     select="we.blog.web.api.mapper.IUserMapper.findUserByid"/>
     </resultMap>
     
+    <resultMap id="SecondResult" type="User_coment">
+        <collection property="uc_um"
+                    ofType="User_message"
+                    column="my_id"
+                    select="we.blog.web.api.mapper.IUserMapper.findUserByid"/>
+    </resultMap>
+    
     <select id="getType" resultType="Blogs_function">
         select * from blogs_function where is_delete = 1;
     </select>
     <select id="getAllBlogs" resultMap="FirstResult">
-        select * from blog_message bm,user_message um where bm.bm_u_id=um_id and bm.is_delete=1 ORDER BY bm_time DESC limit #{nowblogs},5;
+        select * from blog_message bm where bm.is_delete=1 ORDER BY bm_time DESC ;
     </select>
     <select id="getSearch" resultMap="FirstResult">
-         select * from blog_message bm,user_message um where bm.bm_title like concat(''%',#{search},'%'') and bm.bm_u_id=um.um_id ;
+         select * from blog_message bm,user_message um where bm.bm_title like concat('%',#{search},'%') and bm.bm_u_id=um.um_id ;
     </select>
     <select id="getThisBlog" resultMap="FirstResult">
         select * from blog_message bm,user_message um where bm_id = #{bm_id} and bm.bm_u_id=um.um_id and bm.is_delete=1;
     </select>
     <insert id="setComment" >
-        insert into user_coment(uc_content,bm_id) values(${advise},#{bm_id});
+        insert into user_coment(uc_content,bm_id,my_id) values(#{advise},#{bm_id},#{my_id});
     </insert>
     <update id="updataComent">
         UPDATE blog_message set bm_comment=bm_comment+1 where bm_id = #{bm_id};
     </update>
-    <select id="getComent" resultType="User_coment">
-        select * from User_coment where my_id=#{blogID} is_delete = 1;
+    <select id="getComent" resultMap="SecondResult">
+        select * from User_coment where bm_id=#{blogID} and is_delete = 1;
+    </select>
+    <insert id="writeBlog">
+        insert into blog_message(bm_u_id,bm_title,bm_content,bm_time,bm_type) values(#{bm_u_id},#{bm_title},#{bm_content},#{bm_time},#{bm_type});
+    </insert>
+    <insert id="collectBlog">
+        insert into user_enshrine(my_id,c_id) values(#{my_id},#{c_id});
+    </insert>
+    <update id="updateVisit">
+        update blog_message set bm_read=bm_read+1 where bm_id=#{bm_id};
+    </update>
+    <select id="getnotification" resultType="User_message">
+        select um_notice_attention,um_notice_comment,um_notice_goods from user_message where um_id = #{um_id};
+    </select>
+    <select id="getThisType" resultMap="FirstResult">
+        select * from blog_message where bm_type=#{bm_type} and is_delete=1;
+    </select>
+    <insert id="setAttention">
+        insert into user_attention(au_id, my_id) values(#{au_id},#{my_id});
+    </insert>
+    <select id="checkUser" resultType="User_message">
+        select * from user_message where um_id=#{um_id} and is_delete=1;
+    </select>
+    <select id="notice" resultType="Notice">
+        select * from notice ;·
     </select>
 </mapper>
